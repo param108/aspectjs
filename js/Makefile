@@ -1,4 +1,2 @@
-build:  boxes.js overlay.js dispatcher.js
-	browserify -t babelify aspects.js dispatcher.js -o bundle.js
-ios:  boxes.js overlay.js dispatcher.js cart.js
-	browserify -t [ babelify --presets [ react ] ] aspects.js dispatcher.js -o bundle.js
+ios:  
+	browserify -t [ babelify --presets [ react ] ] dispatcher.js aspect.js aspectlist.js  index.js -o bundle.js
