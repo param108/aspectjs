@@ -12,7 +12,7 @@ function hideAspectList(data) {
   // do nothing for now
 }
 
-var Aspect = React.createClass({
+var AspectView = React.createClass({
   getInitialState: function() {
     return {
             name: "",
@@ -21,7 +21,11 @@ var Aspect = React.createClass({
             };
   },
 
+  updateAspect: function(data) {
+  },
+
   componentDidMount: function() {
+    Dispatch.register("SHOW_ASPECT", updateAspect);
     this.setState({name:this.props.name,
                    key:this.props.key,
                    url:this.props.url});
