@@ -16,15 +16,18 @@ var Aspect = React.createClass({
   getInitialState: function() {
     return {
             name: "",
-            url: "",
-            id: "",
+            score: "",
+            belt: "",
+            key: "",
             };
   },
 
   componentDidMount: function() {
     this.setState({name:this.props.name,
-                   key:this.props.key,
-                   url:this.props.url});
+                   score: this.props.score,
+                   belt: this.props.belt,
+                   key:this.props.key
+                   });
   },
 
   showAspect: function(ev) {
@@ -34,9 +37,12 @@ var Aspect = React.createClass({
   render: function() {
     var title = this.state.name;
     var id = this.state.key;
+    var score = this.state.score;
+    var belt = this.state.belt;
+    var disp = belt.toString()+"/"+score.toString();
     return (
         <div onClick={this.showAspect} className="aspect">
-           <span className="aspect-name">{title}</span>
+           <span className="aspect-name">{title}</span><span className="aspect-score">{disp}</span>
         </div>
     );
    }

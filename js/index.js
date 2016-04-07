@@ -7,10 +7,20 @@ var React = require('react');
 var ReactDom = require('react-dom');
 var $ = require('jquery');
 var AspectList = require('./aspectlist');
-
+var AspectDetail = require('./aspect-detail');
+var UISwitcher= require('./uiswitcher');
 $(document).ready(function() {
+ReactDom.render(
+  <AspectDetail/>,
+  document.getElementById('aspect-detail')
+);
+
 ReactDom.render(
   <AspectList url="/doitgym/aspects/list/"/>,
   document.getElementById('aspect-list')
+);
+ReactDom.render(
+  <UISwitcher start="#aspect-list"/>,
+  document.getElementById('uiswitcher')
 );
 });

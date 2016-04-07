@@ -1,0 +1,95 @@
+.aspect {
+  border-width: 1px;
+  border-style: solid;
+  background-color: #303030;
+  height: 50px;
+}
+
+.aspect-sizer {
+  vertical-align: middle;
+  color: white;
+  float: right;
+  display: inline-block;
+  height: 50px;
+}
+
+
+.aspect-score {
+  vertical-align: middle;
+  color: white;
+  float: right;
+  display: inline-block;
+  line-height: 50px;
+}
+
+.aspect-name {
+  vertical-align: middle;
+  color: white;
+  float: left;
+  display: inline-block;
+  line-height: 50px;
+}
+
+.add-aspects {
+  width: 100%;
+}
+
+#aspect-list {
+  /*position: absolute;
+  top: 0;
+  left: 0;*/
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+
+#aspect-detail {
+  /*position: absolute;
+  top: 0;
+  left: 0;*/
+  display: none;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+.aspect-detail-menu {
+  height: 50px;
+  width: 100%;
+}
+
+.aspect-detail-name {
+  width: 100%;
+  z-index: 10;
+}
+
+.aspect-detail-score {
+  width: 100%;
+  display: block;
+}
+
+.aspect-detail-label {
+  width: 100%;
+  display: block;
+}
+
+.aspect-detail-future {
+  width: 100%;
+  height: 50%;
+}
+
+.aspect-detail-notes {
+  width: 100%;
+  height: 50%;
+}
+
+.aspect-detail-btn {
+  width: 100%;
+  height: 50px;
+}
+
+#uiswitcher {
+  display: none;
+}
+

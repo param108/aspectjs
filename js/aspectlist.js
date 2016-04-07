@@ -63,17 +63,9 @@ var AspectList = React.createClass({
   },
   
   addAspectHandler: function(event) {
-    var data ={ name: $('#add-aspect-name').val() };
-    $.ajax({
-      type: "POST",
-      url: "/doitgym/aspects/addAspect/",
-      dataType: 'json',
-      cache: false,
-      data: data,
-      success: function(data) {
-        this.setState({data: data.data}); 
-      }.bind(this)
-    });
+    Dispatch.dispatch("NEW_ASPECT_DETAIL", $('#add-aspect-name').val());
+    Dispatch.dispatch("SWITCHER_PUSH", "#aspect-detail");
+    $('#add-aspect-name').val("");
   },
 
   render: function() {
