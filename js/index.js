@@ -9,6 +9,7 @@ var $ = require('jquery');
 var AspectList = require('./aspectlist');
 var AspectDetail = require('./aspect-detail');
 var UISwitcher= require('./uiswitcher');
+var Loading= require('./loading');
 $(document).ready(function() {
 ReactDom.render(
   <AspectDetail/>,
@@ -23,4 +24,9 @@ ReactDom.render(
   <UISwitcher start="#aspect-list"/>,
   document.getElementById('uiswitcher')
 );
+ReactDom.render(
+  <Loading/>,
+  document.getElementById('loading')
+);
+
 });

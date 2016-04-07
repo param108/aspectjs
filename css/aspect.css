@@ -93,3 +93,45 @@
   display: none;
 }
 
+#loading {
+  display: none;
+  height: 100%;
+  width: 100%;
+  background-color: gray;
+  text-align: center;
+}
+
+.loading-div {
+  display: inline-block;
+  height: 100%;
+}
+
+.loading-div2 {
+  display: table-cell;
+  height:100%;
+  vertical-align: middle;
+}
+
+.spacing-div {
+  height: 100%;
+  display: inline-block;
+  vertical-align: middle;
+}
+.loading-span {
+  display: inline-block;
+  vertical-align: middle;
+}
+.aspect-detail-moments-btn {
+  height: 50px;
+}
+
+.aspect-detail-save-btn {
+  height: 50px;
+  min-width: 50px;
+}
+
+.aspect-detail-cancel-btn {
+  height: 50px;
+  min-width: 50px;
+}
+

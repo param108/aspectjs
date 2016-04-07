@@ -57,9 +57,11 @@ var UISwitcher = React.createClass({
   },
 
   render: function() {
+    var idx = 0;
     var List = this.state.stack.map(function(stackelem) {
+      idx = idx + 1;
       return (
-        <span>{stackelem}</span>
+        <span key={idx}>{stackelem}</span>
       );
     });
     return (

@@ -12,11 +12,11 @@ var AspectDetail = React.createClass({
   renderNewAspect: function(data) {
     console.log("rendering new aspect-detail");
     this.setState({
-      id: "",
+      id: 0,
       name: data, 
       belt: "white",
       score: 0,
-      fid: "",
+      fid: 0,
       fseq: 0,
       future: "",
       status: "in progress",
@@ -28,11 +28,11 @@ var AspectDetail = React.createClass({
 
   getInitialState: function() {
     return {
-      id: "",
+      id: 0,
       name: "", 
       belt: "white",
       score: 0,
-      fid: "",
+      fid: 0, 
       fseq: 0,
       future: "",
       status: "in progress",
@@ -44,11 +44,11 @@ var AspectDetail = React.createClass({
   componentDidMount: function() {
     Dispatch.register("NEW_ASPECT_DETAIL", this.renderNewAspect);
     this.setState({
-      id: "",
+      id: 0,
       name: "", 
       belt: "white",
       score: 0,
-      fid: "",
+      fid: 0,
       fseq: 0,
       future: "",
       status: "in progress",
@@ -56,7 +56,12 @@ var AspectDetail = React.createClass({
       moments: []
     });
   },
+  save_guts: function(endfn) {
+    setTimeout(endfn, 2000);
+  },
   save: function () {
+    Dispatch.dispatch("SWITCHER_PUSH","#loading");
+    Dispatch.dispatch("START_WAIT",{fn: this.save_guts});
   },
   cancel: function() {
     Dispatch.dispatch("SWITCHER_POP","");
@@ -74,19 +79,20 @@ var AspectDetail = React.createClass({
     var notes_label="Notes:";
     var save_btn = "Save";
     var cancel_btn = "Cancel";
-
+    var moments_btn = "View/Modify Moments";
     $("#aspect-detail").scrollTop(0);
     return (
         <div className="aspect-detail-data">
            <div className="aspect-detail-menu"></div>
            <input type="text" className="aspect-detail-name" placeholder="an aspect of your life"></input>
+           <button className="aspect-detail-moments-btn">{moments_btn}</button>
            <span className="aspect-detail-score">{score}</span>
            <span className="aspect-detail-label">{future_label}</span>
            <textarea className="aspect-detail-future"></textarea>
            <span className="aspect-detail-label">{notes_label}</span>
            <textarea className="aspect-detail-notes"></textarea>
-           <button className="aspect-detail-btn-save" onClick={this.save}>{save_btn}</button>
-           <button className="aspect-detail-btn-cancel" onClick={this.cancel}>{cancel_btn}</button>
+           <button className="aspect-detail-save-btn" onClick={this.save}>{save_btn}</button>
+           <button className="aspect-detail-cancel-btn" onClick={this.cancel}>{cancel_btn}</button>
         </div>
     );
    }
