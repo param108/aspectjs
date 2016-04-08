@@ -16,11 +16,33 @@ var Database = React.createClass({
   },
   save_local: function(data) {
   },
+  save_done: function(data) {
+    if (__local.hasOwnProperty(data.tablename)) {
+      // on return data.name becomes data.tablename
+      __local[data.tablename].num = __local[data.tablename].num - 1);
+    } 
+    // the ui stuff
+    // final save done
+    data.fn('final');
+  },
   save: function(data) {
+    if (__local.hasOwnProperty(data.name)) {
+      __local[data.name].num = __local[data.name].num + 1);
+    } else {
+      __local[data.name] = {num: 1};
+    }
+    // local save done
+    data.fn('local');
+    if (__fs.hasOwnProperty(data.fstype)) {
+      __fs[data.fstype].write(data,this.save_done);
+    } else {
+      console.log("Failed to find filesystem for "+data.name);
+    }
   },
   retrieve: function(data) {
   },
   register: function(data) {
+    __fs[data.name]=data.fns; 
   },
   componentDidMount: function() {
     Dispatch.register("SAVE_DATA", this.save);
@@ -34,7 +56,7 @@ var Database = React.createClass({
     }
     List = locallist.map(function(localkey) {
       var name = localkey;
-      var cnt = __local[localkey].length;
+      var cnt = __local[localkey];
       var dt = name+"-"+cnt.toString();
       return (
         <span key={name} className="database-view-elem">{dt}</span>
@@ -45,7 +67,7 @@ var Database = React.createClass({
         {List}
         </div>
     );
-   }
+  }
 });
 
 module.exports=Database;

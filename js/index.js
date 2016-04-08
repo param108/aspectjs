@@ -10,6 +10,7 @@ var AspectList = require('./aspectlist');
 var AspectDetail = require('./aspect-detail');
 var UISwitcher= require('./uiswitcher');
 var Loading= require('./loading');
+var Database = require('./database');
 $(document).ready(function() {
 ReactDom.render(
   <AspectDetail/>,
@@ -27,6 +28,10 @@ ReactDom.render(
 ReactDom.render(
   <Loading/>,
   document.getElementById('loading')
+);
+ReactDom.render(
+  <Database/>,
+  document.getElementById('database')
 );
 
 });
