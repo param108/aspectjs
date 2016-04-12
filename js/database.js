@@ -7,8 +7,12 @@ var React = require('react');
 var ReactDom = require('react-dom');
 var $ = require('jquery');
 
+var __tid_latest = 1;
 var __local = {};
 var __fs = {};
+function init_local_data() {
+  return { numw: 0, numrd: 1, data = {}};
+}
 var Database = React.createClass({
   getInitialState: function() {
     return {
@@ -29,8 +33,9 @@ var Database = React.createClass({
     if (__local.hasOwnProperty(data.name)) {
       __local[data.name].num = __local[data.name].num + 1);
     } else {
-      __local[data.name] = {num: 1};
+      __local[data.name] = init_local_data();
     }
+    __local[data.name].data = data;
     // local save done
     data.fn('local');
     if (__fs.hasOwnProperty(data.fstype)) {
@@ -39,14 +44,38 @@ var Database = React.createClass({
       console.log("Failed to find filesystem for "+data.name);
     }
   },
+  retrieve_done: function(data) {
+  },
   retrieve: function(data) {
+    var upd_immd = false;
+    if (__local.hasOwnProperty(data.name)) {
+      if (__local[data.name].val != null) {
+        // if we have a value update it
+        upd_immd = true;
+      }
+    } else {
+      __local[data.name] = init_local_data();
+      __tid_latest += 1;
+      data.tid = __tid_latest; 
+    }
+    // even 
+    __local[data.name].request = data;
+    // local save done
+    data.fn('local');
+    if (__fs.hasOwnProperty(data.fstype)) {
+      __fs[data.fstype].read(data,this.retrieve_done);
+    } else {
+      console.log("Failed to find filesystem for "+data.name);
+    }
+   
   },
   register: function(data) {
     __fs[data.name]=data.fns; 
   },
   componentDidMount: function() {
     Dispatch.register("SAVE_DATA", this.save);
-    Dispatch.register("REGISTER_DATA", this.register);
+    Dispatch.register("REGISTER_FS", this.register);
+    Dispatch.register("GET_DATA", this.retrieve);
   },
 
   render: function() {

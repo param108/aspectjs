@@ -45,7 +45,7 @@ var AspectList = React.createClass({
 
   componentDidMount: function() {
     Dispatch.register("HideAspectList", hideAspectList);
-    $.ajax({
+    /*$.ajax({
       url: this.props.url, 
       dataType: 'json',
       cache: false,
@@ -59,7 +59,8 @@ var AspectList = React.createClass({
           }
         });
         this.setState({data: data.data}); 
-      }.bind(this)}); 
+      }.bind(this)}); */
+    Dispatch.dispatch("DB_GET_DATA", 
   },
   
   addAspectHandler: function(event) {
@@ -85,7 +86,7 @@ var AspectList = React.createClass({
           {List}
         </div>
     );
-   }
+  }
 });
 
 module.exports=AspectList;

@@ -93,6 +93,9 @@
   display: none;
 }
 
+#database {
+  display: none;
+}
 #loading {
   display: none;
   height: 100%;

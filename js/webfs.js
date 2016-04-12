@@ -18,48 +18,47 @@ var Webfs = React.createClass({
             };
   },
   save_done: function(data) {
-    d = __store[data.tablename][0];
-    if (d.tid != data.tid) {
+    var d = __store[data.name][0];
+    if (d.data.tid != data.tid) {
       // now remove it from the list
       console.log("Success:Wrong transaction id found");
       // CRASH AND DIE BASICALLY
       return;
     }
 
-    d.response = data;
-    d.status = 0; // success
+    data.status = 0; // success
     // delete it from the list
-    __store[data.tablename].shift();
+    __store[data.name].shift();
     // call the callback
-    d.cb(d);
+    d.__cb(data);
     // set work to be done again for this queue if there is work
-    if (__store[data.tablename].length == 0) {
+    if (__store[data.name].length == 0) {
       __status[data.name] = 1;
     } else {
       __status[data.name] = 0;
     }
   },
   save_fail: function(data) {
-    d = __store[data.tablename][0];
-    if (d.tid != data.tid) {
+    var d = __store[data.name][0];
+    if (d.data.tid != data.tid) {
       // now remove it from the list
       console.log("Error:Wrong transaction id found");
       // CRASH AND DIE BASICALLY
       return;
     }
 
-    if (d.retries < 3) {
-      d.retries = d.retries + 1;
+    if (d.__retries < 3) {
+      d.__retries = d.__retries + 1;
     } else {
+      console.log("Failed to upload in 3 tries, deleting update");
       // crossed maximum retries delete it from the list
-      __store[data.tablename].shift();
-      d.response = data;
-      d.status = 1; // success
+      __store[data.name].shift();
+      data.status = 1; // success
       // call the callback
-      d.cb(d);
+      d.__cb(data);
     }
     // set work to be done again for this queue if there is work
-    if (__store[data.tablename].length == 0) {
+    if (__store[data.name].length == 0) {
       __status[data.name] = 1;
     } else {
       __status[data.name] = 0;
@@ -70,21 +69,14 @@ var Webfs = React.createClass({
    * adds the data to the service queue
    */
   save: function(data, cb) {
-    //create a unique transaction id
-    __storeid = __storeid + 1;
-    // add it to the object so we get it back in the response
-    data.data.tid = __storeid;
-    // populate the tablename as the name passed in
-    data.data.tablename = data.name;
-    // add the callback to the object
-    data.cb = cb;
+    data.__cb = cb;
     // add a fail counter
-    data.retries = 0;
+    data.__retries = 0;
     if (!__store.hasOwnProperty(data.name)) {
-      __store[data.name] = [];
       // 1 means no work to be done
       __status[data.name] = 1;
       __list_of_keys.push(data.name);
+      __store[data.name] = [];
     }
     __store[data.name].push(data);
     // 0 means work to be done
@@ -141,26 +133,26 @@ var Webfs = React.createClass({
     __fs[data.name]=data.fns; 
   },
   componentDidMount: function() {
-    Dispatch.dispatch("REGISTER_DATA", {fns: {write: this.save},
+    Dispatch.dispatch("REGISTER_FS", {fns: {write: this.save,
+                                              read: this.save},
                                         name: "webfs"});
     setInterval(this.worker, 2000);
   },
 
   render: function() {
-    locallist=[];
-    for (var key in __local) {
+    var locallist=[];
+    for (var key in __store) {
       locallist.push(key);
     }
-    List = locallist.map(function(localkey) {
-      var name = localkey;
-      var cnt = __local[localkey];
-      var dt = name+"-"+cnt.toString();
+    var List = locallist.map(function(localkey) {
+      var cnt = __store[localkey].length;
+      var dt = localkey+"-"+cnt.toString();
       return (
-        <span key={name} className="database-view-elem">{dt}</span>
+        <span key={localkey} className="webfs-view-elem">{dt}</span>
       );
     });
     return (
-        <div className="database-view">
+        <div className="webfs-view">
         {List}
         </div>
     );
