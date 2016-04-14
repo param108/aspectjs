@@ -38,11 +38,31 @@
   /*position: absolute;
   top: 0;
   left: 0;*/
+  display: none;
   height: 100%;
   width: 100%;
   overflow: auto;
 }
 
+#login {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+#dialog {
+  display: none;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+#register {
+  display: none;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
 
 #aspect-detail {
   /*position: absolute;

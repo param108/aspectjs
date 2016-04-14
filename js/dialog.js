@@ -6,49 +6,40 @@ var Dispatch = assign({}, Dispatcher.prototype,{});
 var React = require('react');
 var ReactDom = require('react-dom');
 var $ = require('jquery');
-var Aspect = require('./aspect');
 
 
-var AspectList = React.createClass({
+var Dialog= React.createClass({
   getInitialState: function() {
     return {
-            data: []
+            msg: "None",
+            btn: "None"
             };
   },
 
-  loadAspects: function(data) {
+  updateMsg: function(data) {
+    this.setState({msg: data.msg,
+                   btn: data.btn});
   },
+
   componentDidMount: function() {
-    Dispatch.register("USER_LOGGED_IN", this.loadAspects);
+    Dispatch.register('DIALOG_MSG_UPDATE', this.updateMsg);
   },
-  
-  addAspectHandler: function(event) {
-    Dispatch.dispatch("NEW_ASPECT_DETAIL", $('#add-aspect-name').val());
-    Dispatch.dispatch("SWITCHER_PUSH", "#aspect-detail");
-    $('#add-aspect-name').val("");
+
+  btnClick: function(event) {
+    Dispatch.dispatch("SWITCHER_POP","");
   },
 
   render: function() {
-    var newdata = this.state.data;
-    var List = newdata.map(function (itemdata) {
-        return (
-          <Aspect key={itemdata.id} name={itemdata.name} score={itemdata.score} belt={itemdata.belt} futures={itemdata.futures} moments={itemdata.moments} />
-        );
-      });
-
     return (
-        <div className="aspects">
-          <div className="add-aspects">
-            <input id="add-aspect-name" type="text" placeholder="an aspect of your life"/>
-            <button onClick={this.addAspectHandler} className="add-aspects-btn">+</button> 
-          </div>
-          {List}
+        <div className="dialog-div">
+           <span className="dialog-msg">{this.state.msg}</span>
+           <button onClick={this.btnClick} className="dialog-btn">{this.state.btn}</button>
         </div>
     );
-  }
+   }
 });
 
-module.exports=AspectList;
+module.exports=Dialog;
 /*ReactDom.render(
   <BoxList url={countriesUrl} itemtype="Countries"/>,
   document.getElementById('box-list')
